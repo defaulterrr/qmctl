@@ -19,7 +19,7 @@ var DeployFile string
 var applyCmd = &cobra.Command{
 	Use:   "apply",
 	Short: "Applies a deploy described in the yaml file",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(command *cobra.Command, args []string) {
 		if DeployFile == "" {
 			fmt.Println("No deploy file was specified")
 			os.Exit(1)
@@ -40,12 +40,15 @@ var applyCmd = &cobra.Command{
 			err = getQmListCmd.Wait()
 			if err != nil {
 				fmt.Println("Failed to obtain qemu running config, is 'qm list' available?")
-				os.Exit(1)
+				if !Testing {
+					os.Exit(1)
+				}
 			}
 			neededState := state.ObtainState(Config)
 			presentState := state.ObtainStateFromQM(QmListBytes.String())
 
 			state.MergeStates(neededState, presentState)
+
 		}
 	},
 }
