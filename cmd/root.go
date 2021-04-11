@@ -9,9 +9,6 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "qmctl",
 	Short: "qmctl is a tool to orchestrate your virtual machines",
-	Run: func(cmd *cobra.Command, args []string) {
-
-	},
 }
 
 var testCmd = &cobra.Command{

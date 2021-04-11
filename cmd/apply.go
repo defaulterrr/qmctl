@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 
 	"github.com/defaulterrr/qmctl/qm"
 	"github.com/defaulterrr/qmctl/state"
@@ -31,9 +33,17 @@ var applyCmd = &cobra.Command{
 			if err != nil {
 				fmt.Println(yaml.FormatError(err, true, true))
 			}
-
+			var QmListBytes bytes.Buffer
+			getQmListCmd := exec.Command("qm", "list")
+			getQmListCmd.Stdout = &QmListBytes
+			getQmListCmd.Run()
+			err = getQmListCmd.Wait()
+			if err != nil {
+				fmt.Println("Failed to obtain qemu running config, is 'qm list' available?")
+				os.Exit(1)
+			}
 			neededState := state.ObtainState(Config)
-			presentState := state.ObtainStateFromQM("qq")
+			presentState := state.ObtainStateFromQM(QmListBytes.String())
 
 			state.MergeStates(neededState, presentState)
 		}
