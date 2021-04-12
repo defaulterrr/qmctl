@@ -34,18 +34,25 @@ var applyCmd = &cobra.Command{
 				fmt.Println(yaml.FormatError(err, true, true))
 			}
 			var QmListBytes bytes.Buffer
-			getQmListCmd := exec.Command("qm", "list")
+			getQmListCmd := exec.Command("qm", "list", "|", "grep", "qmctl-")
+			fmt.Println(getQmListCmd)
+			// getQmListCmd.Stdout = os.Stdout
+			// getQmListCmd.Stderr = os.Stderr
 			getQmListCmd.Stdout = &QmListBytes
-			getQmListCmd.Run()
+			getQmListCmd.Start()
 			err = getQmListCmd.Wait()
 			if err != nil {
 				fmt.Println("Failed to obtain qemu running config, is 'qm list' available?")
 				if !Testing {
+					fmt.Println(err)
 					os.Exit(1)
 				}
 			}
 			neededState := state.ObtainState(Config)
+			fmt.Println("BYTES" + QmListBytes.String())
 			presentState := state.ObtainStateFromQM(QmListBytes.String())
+			fmt.Println(neededState)
+			fmt.Println(presentState)
 
 			state.MergeStates(neededState, presentState)
 

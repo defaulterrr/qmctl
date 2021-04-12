@@ -1,22 +1,8 @@
 hosts:
 - vm1:
-    id: 1
+    id: 401
     cpu: 1
     mem: 2048
-    cloudinit: 9000
-    ip: 192.168.5.2
-    gateway: 192.168.5.1
-- vm2:
-    id: 2
-    cpu: 1
-    mem: 2048
-    cloudinit: 9000
-    ip: 192.168.5.2
-    gateway: 192.168.5.1
-- vm3:
-    id: 4
-    cpu: 1
-    mem: 2048
-    cloudinit: 9000
-    ip: 192.168.5.2
+    cloudinit: 9001
+    ip: 192.168.5.221/24
     gateway: 192.168.5.1

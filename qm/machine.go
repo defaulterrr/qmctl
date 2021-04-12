@@ -1,6 +1,9 @@
 package qm
 
-import "os/exec"
+import (
+	"os/exec"
+	"fmt"
+)
 
 type VM struct {
 	// UID of a vm
@@ -21,38 +24,44 @@ type VM struct {
 
 func (mach VM) Clone() {
 	command := exec.Command("qm", "clone", mach.Cloudinit, mach.ID, "--name", mach.Name)
-	command.Run()
+	command.Start()
 	command.Wait()
 }
 
 func (mach VM) Stop() {
 	command := exec.Command("qm", "stop", mach.ID)
-	command.Run()
+	command.Start()
 	command.Wait()
 }
 
 func (mach VM) Start() {
 	command := exec.Command("qm", "start", mach.ID)
-	command.Run()
+	command.Start()
 	command.Wait()
 }
 
 func (mach VM) Destroy() {
-	command := exec.Command("qm", "destroy", mach.ID)
-	command.Run()
-	command.Wait()
+	// command := exec.Command("qm", "destroy", mach.ID)
+	// command.Run()
+	// command.Wait()
 }
 
 func (mach VM) Set() {
 	setCommand := exec.Command("qm", "set", mach.ID, "--cores", mach.CPU)
-	setCommand.Run()
-	setCommand.Wait()
+	setCommand.Start()
+	err := setCommand.Wait()
+	fmt.Println(err)
 
 	setCommand = exec.Command("qm", "set", mach.ID, "--memory", mach.Mem)
-	setCommand.Run()
-	setCommand.Wait()
+	setCommand.Start()
+	err = setCommand.Wait()
+	fmt.Println(err)
+
 
 	setCommand = exec.Command("qm", "set", mach.ID, "--ipconfig0", "ip="+mach.IP+",gw="+mach.Gateway)
-	setCommand.Run()
-	setCommand.Wait()
+	fmt.Println(*setCommand)
+	setCommand.Start()
+	err = setCommand.Wait()
+	fmt.Println(err)
+
 }
