@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+qmctl
 
 # Test binary, built with `go test -c`
 *.test

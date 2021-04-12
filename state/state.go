@@ -40,25 +40,29 @@ func ObtainStateFromQM(qmlist string) State {
 	// fmt.Println(qmlist)
 	qmlist = strings.TrimSuffix(qmlist, "\n")
 	lines := strings.Split(qmlist, "\n")
+	lines = lines[1:]
+
 	for i := range lines {
 		line := lines[i]
 
-		strings.TrimSpace(line)
+		line = strings.TrimSpace(line)
 		space := regexp.MustCompile(`\s+`)
 		line = space.ReplaceAllString(line, " ")
 		line = strings.TrimSpace(line)
 		// fmt.Println(line)
 		params := strings.Split(line, " ")
 		// fmt.Println(params)
-		id := params[0]
 		name := params[1]
-		mem := params[3]
-		vm := qm.VM{
-			ID:   id,
-			Name: name,
-			Mem:  mem,
+		if strings.HasPrefix(name, "qmctl-") {
+			id := params[0]
+			mem := params[3]
+			vm := qm.VM{
+				ID:   id,
+				Name: name,
+				Mem:  mem,
+			}
+			state.Hosts = append(state.Hosts, vm)
 		}
-		state.Hosts = append(state.Hosts, vm)
 	}
 	return state
 }
