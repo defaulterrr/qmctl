@@ -27,6 +27,8 @@ func Execute() error {
 	rootCmd.PersistentFlags().BoolVarP(&Testing, "testing", "", false, "[TEST] intended for test purposes, allows for some workarounds to be activated when full environment is not available")
 	rootCmd.AddCommand(testCmd)
 	rootCmd.AddCommand(applyCmd)
+	rootCmd.AddCommand(showCmd)
+	rootCmd.AddCommand(flushCmd)
 	applyCmd.Flags().StringVarP(&DeployFile, "file", "f", "", "Path to the deploy description (Should be a YAML config)")
 	return rootCmd.Execute()
 }

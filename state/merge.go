@@ -1,6 +1,11 @@
 package state
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+
+	"github.com/defaulterrr/qmctl/qm"
+)
 
 func MergeStates(neededState, presentState State) {
 	neededVMs := neededState.Hosts
@@ -8,24 +13,30 @@ func MergeStates(neededState, presentState State) {
 
 	var isFound bool
 	for _, value := range neededVMs {
-		isFound = false
-		for _, value2 := range presentVMs {
-			if value.ID == value2.ID && value.Name == value2.Name {
-				isFound = true
-				break
+		wg := sync.WaitGroup{}
+		wg.Add(1)
+		go func(localValue qm.VM) {
+			defer wg.Done()
+			isFound = false
+			for _, value2 := range presentVMs {
+				if localValue.ID == value2.ID && localValue.Name == value2.Name {
+					isFound = true
+					break
+				}
 			}
-		}
 
-		if isFound {
-			fmt.Println("Found existing instance: " + value.Name)
-			value.Stop()
-			value.Set()
-			value.Start()
-		} else {
-			fmt.Println("Didn't find existing instance: " + value.Name)
-			value.Clone()
-			value.Set()
-			value.Start()
-		}
+			if isFound {
+				fmt.Println("Found existing instance: " + localValue.Name)
+				localValue.Stop()
+				localValue.Set()
+				localValue.Start()
+			} else {
+				fmt.Println("Didn't find existing instance: " + localValue.Name)
+				localValue.Clone()
+				localValue.Set()
+				localValue.Start()
+			}
+		}(value)
+		wg.Wait()
 	}
 }

@@ -11,6 +11,13 @@ type State struct {
 	Hosts []qm.VM
 }
 
+func (state *State) Flush() {
+	for i := range state.Hosts {
+		state.Hosts[i].Stop()
+		state.Hosts[i].Destroy()
+	}
+}
+
 func NewState() State {
 	newState := State{}
 	newState.Hosts = make([]qm.VM, 0, 10)

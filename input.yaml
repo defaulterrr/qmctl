@@ -2,7 +2,24 @@ hosts:
 - vm1:
     id: 401
     cpu: 1
-    mem: 2048
+    mem: 4096
     cloudinit: 9001
-    ip: 192.168.5.221/24
-    gateway: 192.168.5.1
+    ip: 10.10.10.2/24
+    gateway: 10.10.10.1
+    bridge: vmbr1
+- vm2:
+    id: 402
+    cpu: 1
+    mem: 4096
+    cloudinit: 9001
+    ip: 10.10.10.3/24
+    gateway: 10.10.10.1
+    bridge: vmbr1
+- vm3:
+    id: 403
+    cpu: 1
+    mem: 4096
+    cloudinit: 9001
+    ip: 10.10.10.4/24
+    gateway: 10.10.10.1
+    bridge: vmbr1
