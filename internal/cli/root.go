@@ -1,4 +1,4 @@
-package cmd
+package cli
 
 import (
 	"fmt"
@@ -19,6 +19,7 @@ var testCmd = &cobra.Command{
 	},
 }
 
+var DeployFile string
 var Verbose bool
 var Testing bool
 

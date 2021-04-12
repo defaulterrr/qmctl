@@ -1,4 +1,4 @@
-package cmd
+package cli
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/defaulterrr/qmctl/state"
+	"github.com/defaulterrr/qmctl/internal/qm"
 	"github.com/spf13/cobra"
 )
 
@@ -16,9 +16,6 @@ var showCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var QmListBytes bytes.Buffer
 		getQmListCmd := exec.Command("qm", "list")
-		// fmt.Println(getQmListCmd)
-		// getQmListCmd.Stdout = os.Stdout
-		// getQmListCmd.Stderr = os.Stderr
 		getQmListCmd.Stdout = &QmListBytes
 		getQmListCmd.Start()
 		err := getQmListCmd.Wait()
@@ -29,11 +26,9 @@ var showCmd = &cobra.Command{
 				os.Exit(1)
 			}
 		}
-		// fmt.Println("BYTES" + QmListBytes.String())
-		presentState := state.ObtainStateFromQM(QmListBytes.String())
-		for i := range presentState.Hosts {
-			fmt.Println(presentState.Hosts[i].Name)
+		s := qm.ObtainStateFromQM(QmListBytes.String())
+		for i := range s {
+			fmt.Println(s[i].Name)
 		}
-
 	},
 }

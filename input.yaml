@@ -7,6 +7,7 @@ hosts:
     ip: 10.10.10.2/24
     gateway: 10.10.10.1
     bridge: vmbr1
+    forwardedPort: 1001
 - vm2:
     id: 402
     cpu: 1
@@ -15,6 +16,7 @@ hosts:
     ip: 10.10.10.3/24
     gateway: 10.10.10.1
     bridge: vmbr1
+    forwardedPort: 1002
 - vm3:
     id: 403
     cpu: 1
@@ -23,3 +25,4 @@ hosts:
     ip: 10.10.10.4/24
     gateway: 10.10.10.1
     bridge: vmbr1
+    forwardedPort: 1003
