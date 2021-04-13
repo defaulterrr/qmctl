@@ -1,15 +1,25 @@
-## Commands
+# QMCTL 
+qmctl is a tool designed to create complex deploys of virtual machines under proxmox (currently 6.3.1)
 
-### init
-Creates a cloud-init vm 
+qmctl is based on CLI tools, mostly on qm and iptables commands
 
-### apply
-Applies specified config
+## Usage:
+  qmctl [command]
 
--f --file - path to config file
+### Available Commands:
+```bash
+- apply       Applies a deploy described in the yaml file
+- flush       Flush all vms created by qmctl
+- help        Help about any command
+- show        Show running config
+```
+    
 
-### flush
-Flushes all vms created by qmctl
+### Flags:
+```bash
+-h, --help      help for qmctl
 
-naming: qmctl-<name>-from-<cloneid>
+Use "qmctl [command] --help" for more information about a command.
+```
 
+Example YAML is available in input.yaml
