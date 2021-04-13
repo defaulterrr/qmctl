@@ -20,7 +20,7 @@ var applyCmd = &cobra.Command{
 			os.Exit(1)
 		} else {
 			config := qm.YamlConfig{}
-			file, openErr := ioutil.ReadFile("./input.yaml")
+			file, openErr := ioutil.ReadFile(DeployFile)
 			if openErr != nil {
 				log.Fatal("Failed to open the file")
 			}

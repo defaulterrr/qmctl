@@ -16,7 +16,6 @@ func FlushSSHForwarding() {
 }
 
 func AddSSHForwarding(destinationAddress, destinationPort, forwardedPort string) {
-	fmt.Println(destinationAddress, destinationPort, forwardedPort)
 
 	PreroutingCommand := exec.Command("iptables", "-A", "PREROUTING", "-t", "nat", "-i", "vmbr0", "-p", "tcp", "--dport", forwardedPort, "-j", "DNAT", "--to-destination", destinationAddress+":"+destinationPort)
 	ForwardCommand := exec.Command("iptables", "-A", "FORWARD", "-p", "tcp", "-d", destinationAddress, "--dport", destinationPort, "-j", "ACCEPT")
